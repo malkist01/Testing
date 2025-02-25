@@ -1,1 +1,28 @@
-g
+name: CI (with KernelSU)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-kernel:
+    name: Build Kernel with KernelSU
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        uses: frstprjkt/kernel_build_action@main
+        with:
+          kernel-url: https://github.com/frstprjkt/qcom_sm6115
+          kernel-branch: susfs
+          config: teletubues_defconfig
+          arch: arm64
+          ksu: true
+          ksu-other: true
+          ksu-url: https://github.com/rifsxd/KernelSU-Next
+          ksu-version: next-susfs
+          aosp-gcc: true
+          aosp-clang: true
+          aosp-clang-version: r547379
+          anykernel3: true
+          anykernel3-url: https://github.com/frstprjkt/AnyKernel3
+          extra-cmd: LLVM=1 LLVM_IAS=1 KBUILD_BUILD_USER=valeryn
+          custom-package-name: valeryn-chime-ksu-$(date +%d%H%M)
